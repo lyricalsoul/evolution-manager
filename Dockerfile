@@ -1,12 +1,16 @@
 # Use a imagem oficial do Node.js 20 como base
-FROM node:20-slim
+FROM node:22-slim
 
-WORKDIR /usr/src/app
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
-RUN npm install -g vite
+WORKDIR /home/node/app
 
-RUN ln -s /usr/local/bin/node /usr/bin/node
+COPY . .
 
-ENTRYPOINT ["npx", "evolution-manager", "server", "start"] 
+RUN yarn install
+
+RUN yarn run build
 
 EXPOSE 9615
+
+ENTRYPOINT ["yarn", "run", "preview", "--", "--port", "9615", "--host"]

@@ -2,7 +2,9 @@
 version: '3'
 services:
   evolution-manager:
-    image: "gabrielpastori1/evolution-manager:latest"
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "9615:9615"
     labels:
